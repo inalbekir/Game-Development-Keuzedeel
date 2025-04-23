@@ -23,3 +23,7 @@ def update_player(dt):
 
 def draw_player():
     draw_rectangle(player_x, player_y, player_width, player_height, player_color)
+
+def get_player_rect():
+    """Geeft de positie en grootte van de speler terug."""
+    return player_x, player_y, player_width, player_height

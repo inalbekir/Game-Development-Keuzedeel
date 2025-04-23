@@ -15,6 +15,8 @@ while not window_should_close():
     clear_background(RAYWHITE)
     draw_player()
     draw_blocks()
+    if check_collision(*get_player_rect()):
+        print("BOTSING!")
     end_drawing()
 
 close_window()
