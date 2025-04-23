@@ -19,6 +19,7 @@ while not window_should_close():
 
     begin_drawing()
     clear_background(RAYWHITE)
+    draw_text(f"Levens: {lives}", 10, 10, 20, DARKGRAY)
     draw_player()
     draw_blocks()
 
