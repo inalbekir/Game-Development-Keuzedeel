@@ -10,10 +10,13 @@ set_target_fps(60)
 def run_game():
     game_over = False
     lives = 1
+    score = 0
+    score_timer = 0
 
     while not window_should_close() and not game_over:
 
         dt = get_frame_time()
+
 
         update_player(dt)
         update_blocks(dt)
@@ -27,10 +30,16 @@ def run_game():
             print("Power-up gepakt!")
             boost_player()
 
+        score_timer += dt
+        if score_timer >= 3.0:
+            score += 1
+            score_timer = 0
+
 
         begin_drawing()
         clear_background(RAYWHITE)
         draw_text(f"Levens: {lives}", 10, 10, 20, DARKGRAY)
+        draw_text(f"Score: {score}", 10, 35, 20, DARKGRAY)
         draw_player()
         draw_blocks()
         draw_powerups()
