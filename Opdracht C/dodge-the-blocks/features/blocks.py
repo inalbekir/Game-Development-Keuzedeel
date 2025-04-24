@@ -10,6 +10,7 @@ spawn_interval = 1.2
 blocks = []
 spawn_timer = 0
 
+
 def update_blocks(dt):
     """Laat blokken vallen en voeg nieuwe toe wanneer nodig."""
     global spawn_timer
@@ -25,10 +26,12 @@ def update_blocks(dt):
     for block in blocks:
         block[1] += block_speed * dt
 
+
 def draw_blocks():
     """Teken alle  blokken op het scherm."""
     for block in blocks:
         draw_rectangle(int(block[0]), int(block[1]), block_width, block_height, RED)
+
 
 def check_collision(player_x, player_y, player_width, player_height):
     """Controleer of een blok de speler raakt."""

@@ -1,6 +1,6 @@
-from raylibpy import *
 from features.player import *
 from features.blocks import *
+from features.powerup import *
 
 
 init_window(800, 600, b"Dodge the Blocks")
@@ -17,16 +17,23 @@ def run_game():
 
         update_player(dt)
         update_blocks(dt)
+        update_powerups(dt)
 
         if check_collision(*get_player_rect()):
             print("BOTSING! Game Over.")
             game_over = True
+
+        if check_powerup_collision(*get_player_rect()):
+            print("Power-up gepakt!")
+            boost_player()
+
 
         begin_drawing()
         clear_background(RAYWHITE)
         draw_text(f"Levens: {lives}", 10, 10, 20, DARKGRAY)
         draw_player()
         draw_blocks()
+        draw_powerups()
 
         end_drawing()
 
@@ -48,5 +55,6 @@ while not window_should_close():
     if is_key_pressed(KEY_R):
         reset_blocks()
         run_game()
+        reset_powerups()
 
 close_window()
