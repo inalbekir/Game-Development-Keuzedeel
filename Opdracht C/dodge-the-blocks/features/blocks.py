@@ -43,3 +43,7 @@ def check_collision(player_x, player_y, player_width, player_height):
             return True  # betekent botsin
 
     return False  # betekent geen botsing
+
+
+def reset_blocks():
+    blocks.clear()
