@@ -1,6 +1,7 @@
 from features.player import *
 from features.blocks import *
 from features.powerup import *
+from features.background import *
 
 
 init_window(800, 600, b"Dodge the Blocks")
@@ -19,6 +20,7 @@ def run_game():
     load_player_texture()
     load_block_texture()
     load_powerup_texture()
+    load_background_texture()
 
     while not window_should_close() and not game_over:
 
@@ -46,8 +48,11 @@ def run_game():
 
         begin_drawing()
         clear_background(RAYWHITE)
-        draw_text(f"Levens: {lives}", 10, 10, 20, DARKGRAY)
-        draw_text(f"Score: {score}", 10, 35, 20, DARKGRAY)
+        draw_background()
+
+        draw_text(f"Levens: {lives}", 10, 10, 20, RED)
+        draw_text(f"Score: {score}", 10, 35, 20, RED)
+
         draw_player()
         draw_blocks()
         draw_powerups()
