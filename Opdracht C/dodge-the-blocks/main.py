@@ -8,10 +8,17 @@ set_target_fps(60)
 
 
 def run_game():
+    global player_texture
+    global block_texture
+
     game_over = False
     lives = 1
     score = 0
     score_timer = 0
+
+    load_player_texture()
+    load_block_texture()
+    load_powerup_texture()
 
     while not window_should_close() and not game_over:
 
@@ -29,6 +36,7 @@ def run_game():
         if check_powerup_collision(*get_player_rect()):
             print("Power-up gepakt!")
             boost_player()
+
 
         score_timer += dt
         if score_timer >= 3.0:
@@ -63,7 +71,7 @@ while not window_should_close():
 
     if is_key_pressed(KEY_R):
         reset_blocks()
-        run_game()
         reset_powerups()
+        run_game()
 
 close_window()
