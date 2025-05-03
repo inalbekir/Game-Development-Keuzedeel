@@ -6,7 +6,7 @@ background_texture = None
 
 def load_background_texture():
     global background_texture
-    background_texture = load_texture("assets/images/Tile-Sets (64-64).png")
+    background_texture = load_texture("assets/images/background.png")
 
 
 def draw_background():

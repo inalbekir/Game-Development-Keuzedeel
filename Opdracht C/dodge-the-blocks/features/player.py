@@ -13,21 +13,28 @@ boost_timer = 0.0
 player_texture = None
 
 
-
-
-
 def load_player_texture():
-    global player_texture, player_x, player_y, player_width, player_height
+    global player_texture, player_dead_texture, player_won_texture
+    global player_x, player_y, player_width, player_height
 
+    # Normla
     image = load_image("assets/images/Pirate Bomb/Sprites/5-Enemy-Captain/1-Idle/1.png")
     player_texture = load_texture_from_image(image)
     unload_image(image)
 
-    # Gerçek boyutu sprite'a göre ayarla
+    # Game Over sprite
+    dead_image = load_image("assets/images/Pirate Bomb/Sprites/5-Enemy-Captain/11-Dead Ground/1.png")
+    player_dead_texture = load_texture_from_image(dead_image)
+    unload_image(dead_image)
+
+    # Win sprite
+    win_image = load_image("assets/images/Pirate Bomb/Sprites/5-Enemy-Captain/8-Scare Run/1.png")
+    player_won_texture = load_texture_from_image(win_image)
+    unload_image(win_image)
+
     player_width = player_texture.width * player_scale
     player_height = player_texture.height * player_scale
 
-    # Ortalayarak konumlandır
     player_x = get_screen_width() / 2 - player_width / 2
     player_y = get_screen_height() - player_height - 10
 
@@ -70,9 +77,9 @@ def draw_player():
 
 def get_player_rect():
     """Geeft een precieze, extra verkleinde hitbox van de speler terug."""
-    hitbox_margin_horizontal = player_width * 0.6   # 🔁 Yanlardan %40 daralt
-    hitbox_margin_top = player_height * 0.25        # 🔁 Üstten %35 kırp
-    hitbox_margin_bottom = player_height * 0.1      # 🔁 Alttan %10 kırp
+    hitbox_margin_horizontal = player_width * 0.6
+    hitbox_margin_top = player_height * 0.25
+    hitbox_margin_bottom = player_height * 0.1
 
     hitbox_x = player_x + (hitbox_margin_horizontal / 2)
     hitbox_y = player_y + hitbox_margin_top
@@ -88,3 +95,38 @@ def boost_player():
     boosted = True
     boost_timer = 0.0
 
+
+def draw_player_dead():
+    if player_dead_texture:
+        scale = player_scale + 2
+        texture_width = player_dead_texture.width * scale
+        texture_height = player_dead_texture.height * scale
+
+        x = get_screen_width() / 2 - texture_width / 2
+        y = get_screen_height() - texture_height - 10
+
+        draw_texture_ex(
+            player_dead_texture,
+            Vector2(x, y),
+            0.0,
+            scale,
+            GRAY
+        )
+
+
+def draw_player_win():
+    if player_won_texture:
+        scale = player_scale + 2
+        texture_width = player_won_texture.width * scale
+        texture_height = player_won_texture.height * scale
+
+        x = get_screen_width() / 2 - texture_width / 2
+        y = get_screen_height() - texture_height - 10
+
+        draw_texture_ex(
+            player_won_texture,
+            Vector2(x, y),
+            0.0,
+            scale,
+            GREEN
+        )

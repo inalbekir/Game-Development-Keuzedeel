@@ -9,10 +9,11 @@ set_target_fps(60)
 
 
 def run_game():
-    global player_texture
-    global block_texture
+    global game_won
 
     game_over = False
+    game_won = False
+
     lives = 1
     score = 0
     score_timer = 0
@@ -39,12 +40,15 @@ def run_game():
             print("Power-up gepakt!")
             boost_player()
 
-
         score_timer += dt
         if score_timer >= 3.0:
             score += 1
             score_timer = 0
 
+            if score >= 3:
+                print("YOU WIN!")
+                game_won = True
+                break
 
         begin_drawing()
         clear_background(RAYWHITE)
@@ -62,21 +66,47 @@ def run_game():
 
 run_game()
 # Game over scherm
-while not window_should_close():
-    begin_drawing()
-    clear_background(RAYWHITE)
-    draw_text("GAME OVER", 290, 250, 40, RED)
-    draw_text("Druk op ESC om af te sluiten", 260, 310, 20, BLACK)
-    draw_text("OF", 400, 345, 15, BLACK)
-    draw_text("Druk op R om opnieuw te beginnen", 250, 370, 20, BLACK)
-    end_drawing()
+# Win scherm
+if game_won:
+    while not window_should_close():
+        begin_drawing()
+        clear_background(RAYWHITE)
+        draw_background()
+        draw_player_win()
 
-    if is_key_down(KEY_ESCAPE):
-        break
+        draw_text("YOU WIN", 220, 250, 80, GREEN)
+        draw_text("'ESC' om af te sluiten  \n'R' om opnieuw te beginnen", 10, 10, 20, BLACK)
 
-    if is_key_pressed(KEY_R):
-        reset_blocks()
-        reset_powerups()
-        run_game()
+        end_drawing()
+
+        if is_key_down(KEY_ESCAPE):
+            break
+
+        if is_key_pressed(KEY_R):
+            reset_blocks()
+            reset_powerups()
+            game_won = False
+            run_game()
+
+# Game over scherm
+else:
+    while not window_should_close():
+        begin_drawing()
+        clear_background(RAYWHITE)
+        draw_background()
+        draw_player_dead()
+
+        draw_text("GAME OVER", 160, 250, 80, RED)
+        draw_text("'ESC' om af te sluiten  \n'R' om opnieuw te beginnen", 10, 10, 20, BLACK)
+
+        end_drawing()
+
+        if is_key_down(KEY_ESCAPE):
+            break
+
+        if is_key_pressed(KEY_R):
+            reset_blocks()
+            reset_powerups()
+            run_game()
 
 close_window()
