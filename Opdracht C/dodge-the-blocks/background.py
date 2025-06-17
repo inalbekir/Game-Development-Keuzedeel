@@ -1,7 +1,5 @@
 from raylibpy import *
-from features.player import player_texture
-from features.blocks import block_texture
-from features.powerup import powerup_texture
+
 
 background_texture = None
 logo_texture = None
@@ -47,7 +45,7 @@ def show_start_screen():
         draw_logo()
 
         draw_text("DODGE THE BLOCKS", 185, 250, 40, RED)
-        draw_text("Druk op ENTER om te beginnen", 10, 10, 20, BLACK)
+        draw_text("Druk op ENTER om te beginnen", 10, 10, 20, WHITE)
 
         end_drawing()
 

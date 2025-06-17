@@ -37,9 +37,9 @@ def update_blocks(dt):
 
     # Moeilijkheid verhogen
     difficulty_timer += dt
-    if difficulty_timer >= 3:
+    if difficulty_timer >= 10:
         difficulty_timer = 0
-        block_speed += 50
+        block_speed += 100
         if spawn_interval < 0.4:
             spawn_interval = 0.4
 

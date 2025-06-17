@@ -1,3 +1,4 @@
+# main.py
 from features.player import *
 from features.blocks import *
 from features.powerup import *
@@ -25,6 +26,10 @@ def run_game():
     score = 0
     score_timer = 0
 
+    # ⏳ Yeni zamanlayıcılar
+    level_up_display_time = 0.0
+    powerup_display_time = 0.0
+
     load_sounds()
     load_player_texture()
     load_block_texture()
@@ -39,29 +44,41 @@ def run_game():
         update_blocks(dt)
         update_powerups(dt)
 
+        # 💣 Çarpışma kontrolü
         if check_collision(*get_player_rect()):
             print("BOTSING! Game Over.")
             game_over = True
             play_explosion_sound()
             play_lose_sound()
-            return "lose"  #  burası onemli unutma
+            return "lose"
 
-
+        # 🚀 Power-Up kontrolü
         if check_powerup_collision(*get_player_rect()):
             print("Power-up gepakt!")
             boost_player()
             play_powerup_sound()
+            powerup_display_time = 2.0  # 2 saniye boyunca ekranda kalacak
 
+        # ⏳ Level Up kontrolü
         score_timer += dt
-        if score_timer >= 3.0:
+        if score_timer >= 10.0:
             score += 1
             score_timer = 0
+            level_up_display_time = 2.0  # 2 saniye boyunca ekranda kalacak
+            play_level_up_sound()  # Ses efekti çalınıyor
 
-            if score >= 10:
+            if score >= 5:
                 print("YOU WIN!")
                 game_won = True
                 play_win_sound()
                 return "win"
+
+        # ⏳ Sayaçları azalt
+        if level_up_display_time > 0:
+            level_up_display_time -= dt
+
+        if powerup_display_time > 0:
+            powerup_display_time -= dt
 
         begin_drawing()
         clear_background(RAYWHITE)
@@ -69,6 +86,14 @@ def run_game():
 
         draw_text(f"Levens: {lives}", 10, 10, 20, RED)
         draw_text(f"Score: {score}", 10, 35, 20, RED)
+
+        # 🎉 Level Up yazdır
+        if level_up_display_time > 0:
+            draw_text("LEVEL UP!", 10, 60, 20, YELLOW)
+
+        # 🚀 Power-Up yazdır
+        if powerup_display_time > 0:
+            draw_text("SPEED BOOST!", 10, 90, 20, ORANGE)
 
         draw_player()
         draw_blocks()
@@ -79,7 +104,7 @@ def run_game():
 
 # 🟢 BAŞLANGIÇ: Sonsuz döngü içinde sürekli oyun başlat
 while True:
-    result = run_game()  # run_game() "win" veya "lose" döndürecek
+    result = run_game()
 
     if result == "win":
         while not window_should_close():
@@ -88,7 +113,7 @@ while True:
             draw_logo()
             draw_player_win()
             draw_text("YOU WIN", 220, 230, 80, GREEN)
-            draw_text("Druk op ESC om af te sluiten  \nDruk op R om opnieuw te beginnen", 10, 10, 20, BLACK)
+            draw_text("Druk op ESC om af te sluiten  \nDruk op R om opnieuw te beginnen", 10, 10, 20, WHITE)
             end_drawing()
 
             if is_key_down(KEY_ESCAPE):
@@ -100,7 +125,7 @@ while True:
             if is_key_pressed(KEY_R):
                 reset_blocks()
                 reset_powerups()
-                break  # 🔁 dıştaki while True'ya dönüp oyunu yeniden başlatır
+                break
 
     elif result == "lose":
         while not window_should_close():
@@ -109,7 +134,7 @@ while True:
             draw_logo()
             draw_player_dead()
             draw_text("GAME OVER", 160, 230, 80, RED)
-            draw_text("Druk op ESC om af te sluiten  \nDruk op R om opnieuw te beginnen", 10, 10, 20, BLACK)
+            draw_text("Druk op ESC om af te sluiten  \nDruk op R om opnieuw te beginnen", 10, 10, 20, WHITE)
             end_drawing()
 
             if is_key_down(KEY_ESCAPE):
@@ -121,4 +146,4 @@ while True:
             if is_key_pressed(KEY_R):
                 reset_blocks()
                 reset_powerups()
-                break  # 🔁 dıştaki while True'ya dönüp oyunu yeniden başlatır
+                break
